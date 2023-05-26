@@ -1,60 +1,31 @@
 class SpacesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_space, only: %i[ show edit update destroy ]
 
-  # GET /spaces or /spaces.json
-  def index
-    @spaces = Space.all
-  end
-
-  # GET /spaces/1 or /spaces/1.json
-  def show
-  end
-
-  # GET /spaces/new
-  def new
-    @space = Space.new
-  end
-
-  # GET /spaces/1/edit
-  def edit
-  end
-
-  # POST /spaces or /spaces.json
   def create
     @space = Space.new(space_params)
 
     respond_to do |format|
       if @space.save
-        format.html { redirect_to space_url(@space), notice: "Space was successfully created." }
-        format.json { render :show, status: :created, location: @space }
+        puts("Spazio #{@space.id} creato")
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @space.errors, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /spaces/1 or /spaces/1.json
   def update
     respond_to do |format|
       if @space.update(space_params)
-        format.html { redirect_to space_url(@space), notice: "Space was successfully updated." }
-        format.json { render :show, status: :ok, location: @space }
+        format.html { redirect_to request.referrer, notice: ""+@space.typology+"-"+@space.name+" aggiornato correttamente." }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @space.errors, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /spaces/1 or /spaces/1.json
   def destroy
     @space.destroy
-
-    respond_to do |format|
-      format.html { redirect_to spaces_url, notice: "Space was successfully destroyed." }
-      format.json { head :no_content }
-    end
   end
 
   private
