@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { sessions: 'users/sessions' }
 
   resources :site_current_dates
   resources :temp_deps
