@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  
+
   db:
     container_name: 'sb_postgre'
     image: postgres
@@ -10,10 +10,10 @@ services:
       POSTGRES_USER: ${POSTGRE_USER}
       POSTGRES_PASSWORD: ${POSTGRE_PASSWORD}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - app-network
-  
+
   web:
     container_name: 'sb_app'
     build:

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @quick_reservation %>
+
+<div>
+  <%= link_to "Edit this quick reservation", edit_quick_reservation_path(@quick_reservation) %> |
+  <%= link_to "Back to quick reservations", quick_reservations_path %>
+
+  <%= button_to "Destroy this quick reservation", @quick_reservation, method: :delete %>
+</div>

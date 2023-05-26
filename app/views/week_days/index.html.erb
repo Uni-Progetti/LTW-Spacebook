@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Week days</h1>
+
+<div id="week_days">
+  <% @week_days.each do |week_day| %>
+    <%= render week_day %>
+    <p>
+      <%= link_to "Show this week day", week_day %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New week day", new_week_day_path %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @favourite_space %>
+
+<div>
+  <%= link_to "Edit this favourite space", edit_favourite_space_path(@favourite_space) %> |
+  <%= link_to "Back to favourite spaces", favourite_spaces_path %>
+
+  <%= button_to "Destroy this favourite space", @favourite_space, method: :delete %>
+</div>

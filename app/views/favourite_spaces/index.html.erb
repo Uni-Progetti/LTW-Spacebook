@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Favourite spaces</h1>
+
+<div id="favourite_spaces">
+  <% @favourite_spaces.each do |favourite_space| %>
+    <%= render favourite_space %>
+    <p>
+      <%= link_to "Show this favourite space", favourite_space %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New favourite space", new_favourite_space_path %>
