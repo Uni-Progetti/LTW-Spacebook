@@ -2,15 +2,19 @@ class CreateTempDeps < ActiveRecord::Migration[7.0]
   def change
     create_table :temp_deps do |t|
       t.belongs_to :user, null: false, foreign_key: true
-      t.string :name
-      t.string :manager
-      t.string :via
-      t.string :civico
-      t.string :cap
-      t.string :citta
-      t.string :provincia
+
+      t.string :name, null: false
+
+      t.string :manager, null: false
+
+      t.string :via, null: false
+      t.string :civico, null: false
+      t.string :cap, null: false
+      t.string :citta, null: false
+      t.string :provincia, null: false
       t.string :lat
       t.string :lon
+
       t.text :description
       t.integer :floors
       t.integer :number_of_spaces
@@ -19,5 +23,10 @@ class CreateTempDeps < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+
+    add_index :temp_deps, :name, unique: true, name: 'temp_deps_index'
+    add_index :temp_deps, :manager, unique: true, name: 'temp_dep_manager_index'
+    add_index :temp_deps, [:via, :civico, :cap, :citta, :provincia], unique: true, name: 'temp_dep_position_index'
+
   end
 end
