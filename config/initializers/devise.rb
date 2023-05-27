@@ -312,9 +312,10 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
   
   # Google authentication setup
-  # config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], { access_type: "offline",
-  #   scope: 'email,profile,calendar',
-  #   prompt: "consent",
-  #   select_account: true
-  # }
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], { access_type: "offline",
+    scope: 'email,profile,calendar',
+    prompt: "consent",
+    select_account: true
+  }
+  
 end

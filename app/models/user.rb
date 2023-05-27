@@ -22,4 +22,58 @@ class User < ApplicationRecord
       self.save
     end
   end
+
+  def is?(role)
+    roles.include?(role.to_s)
+  end
+
+  def has_role?(role)
+    roles.include?(role)
+  end
+
+  def is_manager?
+    if self.role.include?("manager")
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_admin?
+    if self.role.include?("admin")
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_user?
+    if self.role.include?("user")
+      return true
+    else
+      return false
+    end
+  end
+
+  # Omniauth Authentication callback
+  def self.from_omniauth(access_token)
+    data = access_token.info
+    user = User.where(email: data['email']).first
+
+    # Uncomment the section below if you want users to be created if they don't exist
+    unless user
+      user = User.create(email: data['email'], password: Devise.friendly_token[0,20], confirmed_at: Time.zone.now ) 
+    end
+    user
+  end
+
+  # Check if the user is banned
+  def is_banned?
+    if self.locked_at!=nil
+      return 'true'
+    else
+      return 'false'
+    end
+  end
+
 end
