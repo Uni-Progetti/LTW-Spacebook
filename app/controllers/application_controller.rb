@@ -15,10 +15,10 @@ class ApplicationController < ActionController::Base
         flash[:alert] = exception.message                                                            # Mostra messagio di errore
     end
 
-    # rescue_from SQLite3::ConstraintException do |exception|                                          # Reindirizza alla pagina corrente se i dati inseriti non rispettano i vincoli sul database
-    #     redirect_back(fallback_location: root_path)                                                  # in caso di errore di path reindirizza alla home
-    #     flash[:alert] = 'Questi dati sono gia stati inseriti. In particolare: '+exception.message+'' # Mostra messagio di errore
-    # end
+    rescue_from PostgreSQL::ConstraintException do |exception|                                       # Reindirizza alla pagina corrente se i dati inseriti non rispettano i vincoli sul database
+        redirect_back(fallback_location: root_path)                                                  # in caso di errore di path reindirizza alla home
+        flash[:alert] = 'Questi dati sono gia stati inseriti. In particolare: '+exception.message+'' # Mostra messagio di errore
+    end
 
     def require_department
         redirect_to '/make_department'                                                                                                                # Reindirizza alla pagina di creazione del dipartimento

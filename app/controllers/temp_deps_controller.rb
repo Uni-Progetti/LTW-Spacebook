@@ -40,7 +40,7 @@ class TempDepsController < ApplicationController
     coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap)
     if coord=='error'
       redirect_to '/make_department'
-      flash[:alert] = "Attenzione: Errore indirizzo dipartimento!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
+      flash[:alert] = "Attenzione: l'indirizzo non è valido oppure la tua connessione non funziona!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
       return
     else
       @temp_dep.lat=coord[0]
@@ -61,7 +61,7 @@ class TempDepsController < ApplicationController
     coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap)
     if coord=='error'
       redirect_to '/make_department'
-      flash[:alert] = "Attenzione: Errore indirizzo dipartimento!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
+      flash[:alert] = "Attenzione: l'indirizzo non è valido oppure la tua connessione non funziona!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
       return
     else
       @temp_dep.lat=coord[0]

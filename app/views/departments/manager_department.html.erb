@@ -2,13 +2,16 @@
 <html lang="it">
 <head>
 
-	<title> Dipartimento selezionato - Spacebook </title>
+	<title> Il mio dipartimento - Spacebook </title>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+
+	<script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 
 	<script>
 		$(document).ready(function () {
@@ -54,13 +57,39 @@
 </head>
 
 <body>
+
+	<%
+		it_days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
+		data_arr = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+		@chart_data = { chart_it_days: [ "", "", "", "", "", "", "" ], reserved_seats: [], open_seats: 0 }
+		today_date = DateTime.now
+		7.times do |k|
+			@chart_data[:chart_it_days][k] = it_days[today_date.wday - 1 + k]
+			data_arr[today_date.wday - 1 + k] = 0
+		end
+	%>
+
+	<div class="row">
+		<!-- Introduzione -->
+		<div class="col">
+			<div class="card">
+				<div class="card-header">
+					<label class="h2 my-3"> Ecco il tuo dipartimento </label>
+					<p> In questa pagina puoi modificare le informazioni del dipartimento, gestire gli spazi, creare/modificare la pianta interattiva e controllare le attività tramite le prenotazioni </p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row mt-4">
 		<!-- Card del dipartimento -->
 		<div class="col-xl-5">
-			<div class="card" style="height: 100%">
+			<div class="card" style="height: fit-content">
 				<div class="card-header"> 
-					<label class="h3 mt-3 mb-0"> <%= @department.name %> (ID: <%= @department.id %>) </label>
-					<div class="small"> Manager: <%= @department.manager %> (ID: <%= @department.user_id %>) </div>
+					<label class="h3 my-3"> <%= (@department).name %> </label>
+					<!-- Tasto per l'eliminazione -->
+					<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+						<%= link_to '', @department, data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash my-3" %>
+					</label>
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -86,22 +115,18 @@
 							<label class="label h5"> Orari <i class="bi bi-clock"></i> </label>
 							<% @week_days.each do |wd| %>
 								<div class="row mb-1">
-									<div class="col-sm-5"><label> <%= wd.day %> </label></div>
-									<div class="col-sm-7"> <%= (wd.state == "Aperto")? "#{wd.apertura.strftime('%H:%M')}-#{wd.chiusura.strftime('%H:%M')}" : "#{wd.state}" %> </div>
+									<div class="col-sm-5"><label class="h6"> <%= wd.day %> </label></div>
+									<div class="col-sm-7"><label> <%= (wd.state == "Aperto")? "#{wd.apertura.strftime('%H:%M')}-#{wd.chiusura.strftime('%H:%M')}" : "#{wd.state}" %> </label></div>
 								</div>
 							<% end %>
 						</div>
 					</div>
 				</div>
 				<div class="card-footer">
-					<div class="row">
-						<!-- Tasto per l'update -->
-						<div class="col-lg-12">
-							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
-							<!-- Modal edit department -->
-							<%= render 'modal_dep_edit', mydep: @department %>
-						</div>
-					</div>
+					<!-- Tasto per l'update -->
+					<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
+					<!-- Modal edit department -->
+					<%= render 'modal_dep_edit', mydep: @department %>
 				</div>
 			</div>
 		</div>
@@ -125,6 +150,7 @@
 						</thead>
 						<tbody>
 							<% @spaces.each do |space| %>
+								<% @chart_data[:open_seats] += space.number_of_seats %>
 								<tr>
 									<td><%= space.typology %></td>
 									<td><%= space.name %></td>
@@ -138,7 +164,7 @@
 									</td>
 									<td>
 										<!-- Tasto per la rimozioe dello spazio inserito -->
-										<%= link_to '', space, data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style:"width:100%"%>
+										<%= link_to '', space,data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style:"width:100%"%>
 									</td>
 								</tr>
 							<% end %>
@@ -149,8 +175,8 @@
 		</div>
 	</div>
 
+	<!-- Prenotazioni del dipartimento -->
 	<div class="row mt-4">
-		<!-- Prenotazioni del dipartimento -->
 		<div class="col">
 			<div class="card">
 				<div class="card-header text-center">
@@ -173,18 +199,25 @@
 						</thead>
 						<tbody>
 							<% @reservations.each do |reservation| %>
+								<% data_arr[reservation.start_date.wday - 1] += 1 if reservation.start_date.strftime("%Y%m%d") < ((DateTime.now)+(604800)).strftime("%Y%m%d") %>
+								<% data_arr[reservation.start_date.wday - 1 + 7] += 1 if reservation.start_date.strftime("%Y%m%d") < ((DateTime.now)+(604800)).strftime("%Y%m%d") %>
 								<tr>
 									<td><%= reservation.email %></td>
 									<td><%= reservation.dep_name %></td>
 									<td><%= reservation.typology %> </td>
-									<td> <%= reservation.space_name %></td>
+									<td><%= reservation.space_name %></td>
 									<td><%= reservation.seat_num %></td>
 									<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
 									<td><%= reservation.start_date.strftime("%H:%M") %> - <%= reservation.end_date.strftime("%H:%M") %></td>
-									<td><%= (reservation.state == "Active")? "Attiva" : "Scaduta" %></td>
+									<td><%= reservation.state %></td>
 									<td><%= link_to '', reservation, data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
 								</tr>
 							<% end %>
+							<%
+								7.times do |k|
+								@chart_data[:reserved_seats][k] = data_arr[today_date.wday - 1 + k]
+								end
+							%>
 						</tbody>
 					</table>
 				</div>
@@ -192,29 +225,38 @@
 		</div>
 	</div>
 
-	<% if @department.dep_map!=nil %>
-		<div class="row mt-4">
-			<!-- Mappa del dipartimento -->
-			<div class="col">
-				<div class="card">
-					<div class="card-header text-center">
-						<label class="h3 mt-3 mb-0"> Pianta del dipartimento </label>
-						<div class="small"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </div>
-					</div>
-					<div class="card-body">
-						<div class="card bg-white" id="chart"></div>
-						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
-						<script>
-							new seatsio.SeatingChart({
-								divId: 'chart',
-								workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
-								event: '<%= @department.dep_event %>'
-							}).render();
-						</script>
-					</div>
-				</div>
-			</div>
-		</div>
-	<% end %>
+	<!-- Editor mappa interattiva -->
+
+	<!-- Grafico -->
+	<!-- <div class="row mt-4"> -->
+	<!-- 	<div class="col-lg-12"> -->
+	<!-- 		<div class="card mb-4" style="height: 100%"> -->
+	<!-- 			<div class="card-header text-center"> -->
+	<!-- 				<h3 class="font-weight-light my-3"> Disponibilità settimanale posti </h3> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="card-body"> -->
+	<!-- 				<canvas class="card form-c-label" id="myDepChart" width="100%"></canvas> -->
+	<!-- 				<script type="text/javascript" charset="utf-8"> -->
+	<!-- 					const ctx = document.getElementById("myDepChart").getContext('2d'); -->
+	<!-- 					const myChart = new Chart(ctx, { -->
+	<!-- 						type: 'bar', -->
+	<!-- 						data: { -->
+	<!-- 							labels: [ "<%= @chart_data[:chart_it_days][0] %>", "<%= @chart_data[:chart_it_days][1] %>", "<%= @chart_data[:chart_it_days][2] %>", "<%= @chart_data[:chart_it_days][3] %>", "<%= @chart_data[:chart_it_days][4] %>", "<%= @chart_data[:chart_it_days][5] %>", "<%= @chart_data[:chart_it_days][6] %>" ], -->
+	<!-- 							datasets: [ -->
+	<!-- 								{ label: 'Numero di prenotazioni', backgroundColor: 'rgba(255, 0, 0, 0.4)', -->
+	<!-- 									data: [ "<%= @chart_data[:reserved_seats][0] %>", "<%= @chart_data[:reserved_seats][1] %>", "<%= @chart_data[:reserved_seats][2] %>", "<%= @chart_data[:reserved_seats][3] %>", "<%= @chart_data[:reserved_seats][4] %>", "<%= @chart_data[:reserved_seats][5] %>", "<%= @chart_data[:reserved_seats][6] %>" ], -->
+	<!-- 								} -->
+	<!-- 							] -->
+	<!-- 						}, -->
+	<!-- 					}); -->
+	<!-- 				</script> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+	<!-- </div> -->
+
+	<!-- Modal che si sovrappone al sito durante i caricamenti -->
+	<%= render 'layouts/modal_loading' %>
+
 </body>
 </html>
