@@ -226,6 +226,77 @@
 	</div>
 
 	<!-- Editor mappa interattiva -->
+	<div class="row mt-4">
+		<div class="col-lg-12">
+			<div class="card" style="height: 100%">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Mappa interattiva </h3>
+				</div>
+				<!-- Se la mappa è gia inizializzata mostra la mappa -->
+				<% if @department.dep_map != nil %>
+					<div class="card-body">
+						<div id="chartDesigner"></div>
+						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+						<script>
+							new seatsio.SeatingChartDesigner({
+								divId: 'chartDesigner',
+								secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
+								chartKey: '<%= @department.dep_map %>'
+							}).render();
+						</script>
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-outline-info" style="width: 100%"> Elimina pianta </button>
+					</div>
+				<!-- Altrimenti propone al manager di inizializzarla la mappa -->
+				<% else %>
+					<div class="card-body text-center">
+						<p class="my-5 py-5">
+							In questa sezione potrai modificare una pianta interattiva del tuo dipartimento in modo che gli altri utenti possano visionare la disposizione degli spazi e dei posti. <br>
+							Al momento non hai ancora creato la pianta. Se desideri farlo basta premere su "Crea pianta"!
+						</p>
+					</div>
+					<div class="card-footer">
+						<%= form_with url: manager_map_initializer_path, local: true, method: :post do |form| %>
+							<%= form.number_field :dep_id, value: @department.id, readonly: true, style: 'display:none'%>
+							<label class="mx-0 my-0 px-0 py-0" style="width: 100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+								<button class="btn btn-sm btn-outline-info" style="width: 100%">Crea pianta</button>
+							</label>
+							<% form.submit '' %>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col-lg-12">
+			<!-- Grafico -->
+			<div class="card mb-4" style="height: 100%">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Disponibilità settimanale posti </h3>
+				</div>
+				<div class="card-body">
+					<canvas class="card form-c-label" id="myDepChart" width="100%"></canvas>
+					<script type="text/javascript" charset="utf-8">
+						const ctx = document.getElementById("myDepChart").getContext('2d');
+						const myChart = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [ "<%= @chart_data[:chart_it_days][0] %>", "<%= @chart_data[:chart_it_days][1] %>", "<%= @chart_data[:chart_it_days][2] %>", "<%= @chart_data[:chart_it_days][3] %>", "<%= @chart_data[:chart_it_days][4] %>", "<%= @chart_data[:chart_it_days][5] %>", "<%= @chart_data[:chart_it_days][6] %>" ],
+								datasets: [
+									{ label: 'Numero di prenotazioni', backgroundColor: 'rgba(255, 0, 0, 0.4)',
+										data: [ "<%= @chart_data[:reserved_seats][0] %>", "<%= @chart_data[:reserved_seats][1] %>", "<%= @chart_data[:reserved_seats][2] %>", "<%= @chart_data[:reserved_seats][3] %>", "<%= @chart_data[:reserved_seats][4] %>", "<%= @chart_data[:reserved_seats][5] %>", "<%= @chart_data[:reserved_seats][6] %>" ],
+									}
+								]
+							},
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Grafico -->
 	<!-- <div class="row mt-4"> -->

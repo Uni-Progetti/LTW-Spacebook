@@ -13,6 +13,57 @@
 	<div class="row">
 
 		<!-- CALENDARIO/GOOGLE CALENDARAL. AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO -->
+		<div class="col-lg-7 pb-2">
+			<div class="card">
+				<div class="card-header">
+					<% if current_user.access_token != nil %> 
+						<label class="h4 bi bi-calendar2-week my-2"> Google Calendar </label>
+					<% else %>
+						<label class="h4 bi bi-calendar2-week my-2"> Calendario </label>
+					<% end %>
+				</div>
+				<div class="card-body px-3" style="display: flex; align-items: center">
+
+					<!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
+					<% if current_user.access_token!=nil%>
+						<% @hash=load_events %>
+
+						<!-- SE IL CALENDAR DELL'UTENTE PRESENTA EVENTI CREA IL CALENDARIO CON ESSI -->
+						<% if @hash!=nil %>
+							<%= month_calendar do |date| %>
+								<%= date.day %>
+								<div>
+									<% if @hash[date.to_s]!=nil %>
+										<font size="-2"><%= @hash[date.to_s][0]%></font>
+										<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>
+									<% end %>
+								</div>
+							<% end %>
+						<!-- SE IL CALENDAR DELL'UTENTE NON PRESENTA EVENTI CREA CALENDARIO VUOTO -->
+						<% else %>
+							<%= month_calendar do |date| %>
+								<%= date.day %>
+							<% end %>
+						<% end %>
+
+					<!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
+					<% else %>
+						<%= month_calendar do |date| %>
+							<%= date.day %><br>
+							<% Reservation.where(user_id: current_user.id).each do |reservation| %>
+								<% if reservation.start_date.strftime("%Y-%m-%d").to_s == date.to_s %>
+									<font size="-2"><%= reservation.dep_name %></font>
+									<font size="-3" color="blue"><%= reservation.typology %> - <%= reservation.space_name %></font></br>
+									<font size="-3" color="blue"><%= reservation.start_date.strftime("%H:%M")%> - <%= reservation.end_date.strftime("%H:%M")%></font>
+									<% break %>
+								<% end %>
+							<% end %>
+
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
 
 		<div class="col-lg-5 pb-2" style="padding-left: 30px">
 			<div class="row">

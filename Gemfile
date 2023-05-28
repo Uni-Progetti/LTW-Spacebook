@@ -43,7 +43,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -60,6 +60,22 @@ gem 'omniauth-rails_csrf_protection'
 
 # User role and authorization
 gem 'cancancan'
+
+# OpenStreetMap client with dependency
+gem 'open_street_map'
+gem 'httparty'
+
+# Google calendar api
+gem 'google-apis-calendar_v3'
+
+# Interactive department map with Seats.io
+gem 'seatsio'
+
+# Interactive calendar with simple calendar
+gem 'simple_calendar', '~> 2.4'
+
+# Search within the application with ransack
+gem 'ransack'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

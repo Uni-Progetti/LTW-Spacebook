@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", passwords: "passwords", confirmations: "confirmations", sessions: "sessions" }
 
   resources :site_current_dates
   resources :temp_deps
@@ -15,12 +15,14 @@ Rails.application.routes.draw do
   resources :quick_reservations
   resources :favourite_spaces
 
+  resources :tasks
+
   root "home#index"
 
   # Generali
   get "/home", to: "home#index"
   post '/home', to: 'home#index', as: 'get_meteo_info'
-  # leaflet ( .................... )
+  get "/leaflet_osm_map", to: "leaflet_osm#index"
   get "/personal_area", to: "personal_area#index"
   get "/informations", to: "informations#index"
 
@@ -44,5 +46,20 @@ Rails.application.routes.draw do
   get "/make_quick_res", to: "quick_reservations#make_quick_res"
 
   post "/find_on_map", to:"home#find_on_map"
+
+  resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
+    member do
+      get :confirm_email
+      patch :ban
+      patch :set_manager
+      patch :manager_req
+      patch :get_user_coord
+    end
+  end
+
+  devise_scope :user do     # CONTROLLA IL TIMEOUT DELLA SESSIONE DELL'UTENTE 
+    get   "/check_session_timeout"    => "session_timeout#check_session_timeout"
+    get   "/session_timeout"          => "session_timeout#render_timeout"
+  end
 
 end
