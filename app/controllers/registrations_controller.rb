@@ -10,14 +10,14 @@ class RegistrationsController < Devise::RegistrationsController
         build_resource(sign_up_params)
         # Chiamo AbstractApi per controllare l'esistenza della mail inserita per la registrazione(NUMERO DI CHIAMATE LIMITATO LASCIARE IL CODICE COMMENTATO E DECOMENTARLO SOLO PER I TEST!!)
         # CODICE COMMENTATO CAUSA CHIAMATE LIMITATE #####
-        response = make_abstract_request(resource.email)
-        if response=='error'
-            redirect_to(request.referrer, alert:"Errore nel controllo validità mail controlla la tua connessione!")
-            return
-        elsif response[0]=='200' && response[1]=='UNDELIVERABLE'
-            redirect_to(request.referrer, alert:"L'email inserita non è valida controlla il campo e riprova!")
-            return
-        end
+        # response = make_abstract_request(resource.email)
+        # if response=='error'
+        #     redirect_to(request.referrer, alert:"Errore nel controllo validità mail controlla la tua connessione!")
+        #     return
+        # elsif response[0]=='200' && response[1]=='UNDELIVERABLE'
+        #     redirect_to(request.referrer, alert:"L'email inserita non è valida controlla il campo e riprova!")
+        #     return
+        # end
         ################
         resource.save
         yield resource if block_given?
