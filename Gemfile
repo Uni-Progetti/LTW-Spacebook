@@ -71,8 +71,9 @@ gem 'google-apis-calendar_v3'
 # Interactive department map with Seats.io
 gem 'seatsio'
 
-# Interactive calendar with simple calendar
+# Interactive calendar with simple calendar with dependency for localization
 gem 'simple_calendar', '~> 2.4'
+gem 'rails-i18n'
 
 # Search within the application with ransack
 gem 'ransack'
