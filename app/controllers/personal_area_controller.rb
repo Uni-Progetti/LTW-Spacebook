@@ -1,5 +1,7 @@
 class PersonalAreaController < ApplicationController
     before_action :authenticate_user!
+    helper_method :load_events
+    CALENDAR_ID = 'primary'
 
   def index
     @quick_reservation = QuickReservation.where(user_id: current_user.id).first

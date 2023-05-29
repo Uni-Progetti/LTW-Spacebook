@@ -15,6 +15,14 @@ class User < ApplicationRecord
   
   before_save :add_default_role, :manager_req
 
+  def has_requested_manager
+    if self.requested_manager=='true'
+      return true
+    else
+      return false
+    end
+  end
+
   def manager_req
     if self.requested_manager=='true'
       User.where(role: 'admin').each do |admin|
@@ -81,6 +89,10 @@ class User < ApplicationRecord
     else
       return 'false'
     end
+  end
+  
+  def self.ransackable_attributes(auth_object = nil)
+    ["access_token", "confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "expires_at", "failed_attempts", "id", "last_sign_in_at", "last_sign_in_ip", "latitude", "locked_at", "locking_reason", "longitude", "provider", "refresh_token", "remember_created_at", "requested_manager", "reset_password_sent_at", "reset_password_token", "role", "sign_in_count", "uid", "unconfirmed_email", "unlock_token", "updated_at"]
   end
 
 end

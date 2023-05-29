@@ -167,6 +167,89 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def sync_event res
+    begin
+      client = get_google_calendar_client current_user # INIZIALIZZO SERVIZIO CALENDAR
+      event = get_event res                            # FORMATTO PER RICHIESTA API CALENDAR
+      client.insert_event('primary', event)            # INSERISCO L'EVENTO CREATO SU CALENDAR
+      result = client.list_events("primary",max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601) # CARICO GLI EVENTI DI CALENDAR
+
+      # CERCO L'EVENTO CORRISPONDENTE A QUELLO APPENA CREATO
+      result.items.each do |e|
+        if (e.summary==event.summary && e.start.date_time==res["start_date"].change(:offset => "+0100").rfc3339)
+          Reservation.find(res["res_id"]).update({is_sync: e.id}) # INSERISCO L'EVENT ID NEL DB
+          #print "\n\n\nORARIO EVENTO CALENDAR: ",e.start.date_time,"\n\nORARIO EVENTO LOCALE: ",res["start_date"],"\n\nORARIO EVENTO UTC: ",res["start_date"].change(:offset => "+0100").rfc3339,"\n\n\n\n"
+        end
+      end
+      flash[:notice] = 'Prenotazioni sincronizzate con successo.'
+    rescue => exception
+      flash.now[:error] = "Errore!",exception
+    end
+  end
+
+  def get_google_calendar_client current_user
+    client = Google::Apis::CalendarV3::CalendarService.new
+    client_authorization = Signet::OAuth2::Client.new
+    client_authorization.client_id = ENV["GOOGLE_CLIENT_ID"]
+    client_authorization.client_secret = ENV["GOOGLE_CLIENT_SECRET"]
+    client_authorization.access_token = current_user.access_token
+    client_authorization.refresh_token = current_user.refresh_token
+    client_authorization.expires_at = current_user.expires_at
+    
+    if current_user.expires_at <= Time.now.to_i
+      redirect_to "/session_timeout"
+    end
+    
+    client.authorization = client_authorization
+    client.authorization.grant_type = "refresh_token"
+    
+    return client
+  end
+
+  # FORMATTO I DATI RACCOLTI PER L'INVIO A GOOGLE CALENDAR API
+  def get_event res
+    event = Google::Apis::CalendarV3::Event.new(
+    summary: res["name_dip"].concat(" ",res["space"]," ",res["seat"]),
+    location: res["place"],
+    description: "prenotazione posto",
+    start: {
+        date_time: res["start_date"].change(:offset => "+0100").rfc3339,
+        time_zone: "Europe/Rome"
+    },
+    end: {
+        date_time: res["end_date"].change(:offset => "+0100").rfc3339,
+        time_zone: "Europe/Rome"
+    },
+    reminders: {
+        use_default: false,
+        overrides: [
+        Google::Apis::CalendarV3::EventReminder.new(reminder_method:"popup", minutes: 10),
+        Google::Apis::CalendarV3::EventReminder.new(reminder_method:"email", minutes: 20)
+        ]
+    },
+    notification_settings: {
+        notifications: [
+                        {type: 'event_creation', method: 'email'},
+                        {type: 'event_change', method: 'email'},
+                        {type: 'event_cancellation', method: 'email'},
+                        {type: 'event_response', method: 'email'}
+                    ]
+    }, 'primary': true
+    )
+  end
+
+  # RIMUOVE LA PRENOTAZIONE DA GOOGLE CALENDAR
+  def remove_from_calendar reservation
+    begin
+      client = get_google_calendar_client current_user # INIZIALIZZO CLIENT
+      client.delete_event('primary',reservation.is_sync)  # RIMUOVO LA PRENOTAZIONE USANDO L'EVENT_ID
+      flash[:notice] = "Prenotazione rimossa con successo da Calendar."
+    rescue => exception
+      flash[:error] = "Errore!",exception
+      print "\n\n",exception,"\n\n"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reservation

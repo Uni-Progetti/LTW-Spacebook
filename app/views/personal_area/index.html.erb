@@ -116,7 +116,7 @@
 					</div>
 
 					<!-- Bottone di richiesta ruolo manager -->
-					<% if current_user.is_user? && current_user.requested_manager==nil%>
+					<% if current_user.is_user? && !current_user.has_requested_manager %>
 							<%= button_to 'Richiedi il ruolo di Manager', manager_req_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info mb-4", style: "width:100%"%>
 					<% end %>
 
