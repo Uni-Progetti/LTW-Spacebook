@@ -1397,6 +1397,49 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   border-color: #ffffff;
 }
 
+.devise-btn {
+  margin-bottom: 0rem;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: transparent;
+  border: 0px solid transparent;
+  padding: 0.1rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.8rem !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.devise-btn-info {
+  color: var(--bs-body-color);
+  background-color: #fff;
+  border-color: var(--bs-body-color);
+}
+.devise-btn-info:hover {
+  color: #fff;
+  background-color: #6b90bb;
+  border-color: #6b90bb;
+}
+
+.devise-btn-outline-info {
+  color: #67aefe;
+  border-color: #ffffff;
+}
+.devise-btn-outline-info:hover {
+  color: rgb(255, 255, 255);
+  background-color: #6b90bb;
+  border-color: #ffffff;
+}
+
 #flashNavModalButtonFill { background-color: rgba(255, 0, 0, 0.5); }
 #flashNavModalButtonFill:hover { background-color: red; }
 
