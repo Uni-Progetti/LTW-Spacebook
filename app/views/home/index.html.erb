@@ -17,8 +17,9 @@
 
 <body>
 	<div class="row">
+
+		<!-- Introduzione -->
 		<div class="col-lg-8">
-			<!-- Introduzione -->
 			<div class="card" style="height:100%">
 				<div class="card-header" style="height:100%">
 					<label class="h2 mt-3 mb-1"> Benvenuto </label>
@@ -34,9 +35,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- Card per la prenotazione rapida -->
 		<div class="col-lg-4">
 			<% if user_signed_in? %>
-				<!-- Card per la prenotazione rapida -->
 				<div class="card mb-4" style="height:100%">
 					<div class="card-header" style="height:100%">
 						<table width="100%">
@@ -81,9 +82,9 @@
 			<% end %>
 		</div>
 
+		<!-- Barra di ricerca per dipartimenti -->
 		<div class="col-lg-12">
-			<!-- Barra di ricerca per dipartimenti -->
-			<%= search_form_for(@q, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
+			<%= search_form_for(@dep, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
 				<table width="100%" class="mt-4">
 					<tr>
 						<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "depSearchHome"%></td>
@@ -93,8 +94,8 @@
 			<% end %>
 		</div>
 
+		<!-- Lista di tutti i dipartimenti dell'applicazione -->
 		<div class="col-lg-8 overflow-auto">
-			<!-- Lista di tutti i dipartimenti dell'applicazione -->
 			<div class="row">
 				<% @departments.each do |department| %>
 					<div class="col-xl-6 pb-4">
@@ -150,9 +151,7 @@
 										<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 											<%= form.text_field :selected_dep_name, value: "#{department.name}", style: "display: none" %>
 											<%= form.text_field :filter, value: "Dep", style: "display: none" %>
-											<label class="mx-0 my-0 px-0 py-0" style="width: 100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-												<button data-turbo="false" class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cursor mx-2'></i>Prenota</button>
-											</label>
+											<button data-turbo="false" class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cursor mx-2'></i>Prenota</button>
 											<% form.submit '' %>
 										<% end %>
 									</div>
@@ -163,6 +162,7 @@
 				<% end %>
 			</div>
 		</div>
+
 		<div class="col-lg-4 pb-4 ">
 			<div class="row">
 

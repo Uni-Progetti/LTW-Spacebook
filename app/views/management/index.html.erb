@@ -112,14 +112,15 @@
 								<td><%= user.email %></td>
 								<td><%= user.role %></td>
 
-								<!-- Locking reason -->
-								<% if user.access_locked? %> <!-- Visualizza la locking reason -->
+								<!-- Se l'utente è bloccato visualizza la locking reason nella cella -->
+								<% if user.access_locked? %>
 									<% if user.locking_reason == nil %>
 										<td> Tentativi di accesso esauriti </td>
 									<% else %>
 										<td> <%= user.locking_reason %> </td>
 									<% end %>
-								<% else %> <!-- Altrimenti lascia la cella vuota -->
+								<!-- Altrimenti lascia la cella vuota -->
+								<% else %>
 									<td></td>
 								<% end %>
 

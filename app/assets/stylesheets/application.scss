@@ -4403,16 +4403,16 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   color: #67aefe;
 }
 
-// Links in sign_in e sign_up
-#signLinks { width: 100%; }
-#signLinks > a {
-  padding: 3px;
-  color: #67aefe !important;
-}
-#signLinks > a:hover {
-  border-radius: 0.25rem;
-  background-color: rgba(255, 255, 255, 0.1);
-}
+// Links in sign_in e sign_up ( Sostituito con le classi devise-btn )
+// #signLinks { width: 100%; }
+// #signLinks > a {
+//   padding: 3px;
+//   color: #67aefe !important;
+// }
+// #signLinks > a:hover {
+//   border-radius: 0.25rem;
+//   background-color: rgba(255, 255, 255, 0.1);
+// }
 
 // Links nel footer
 #footerLinks { width: 100%; }

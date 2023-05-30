@@ -6,50 +6,57 @@
 # 3) rake db:seed    (Popola il db con i dati nel seed)
 
 # Creazione degli utenti base. Effettuate l'accesso con questi dati per eventuali test.
-@fra_usr = User.create(email: "fra.user@gmail.com",           password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-@mat_usr = User.create(email: "matteo.user@gmail.com",        password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-@mic_usr = User.create(email: "guarino.user@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-@don_usr = User.create(email: "tedesco.user@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@fra_usr = User.create(email: "fra.user@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@mat_usr = User.create(email: "matteo.user@gmail.com",    password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@gua_usr = User.create(email: "gua.user@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@ted_usr = User.create(email: "ted.user@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
 
 # Creazione degli utenti manager. Effettuate l'accesso con questi dati per eventuali test.
-@fra_man = User.create(email: "fra.manager@gmail.com",     password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
-@mat_man = User.create(email: "matteo.manager@gmail.com",  password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
-@mic_man = User.create(email: "guarino.manager@gmail.com", password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
-@don_man = User.create(email: "tedesco.manager@gmail.com", password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
-@tst_man = User.create(email: "test.manager@gmail.com",    password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@fra_man = User.create(email: "fra.manager@gmail.com",    password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@mat_man = User.create(email: "matteo.manager@gmail.com", password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@gua_man = User.create(email: "gua.manager@gmail.com",    password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@ted_man = User.create(email: "ted.manager@gmail.com",    password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@tst_man = User.create(email: "test.manager@gmail.com",   password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
 
 # Creazione degli utenti admin. Effettuate l'accesso con questi dati per eventuali test.
-@fra_adm = User.create(email: "fra.admin@gmail.com",          password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-@mic_adm = User.create(email: "guarino.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-@mat_adm = User.create(email: "matteo.admin@gmail.com",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@fra_adm = User.create(email: "fra.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@mat_adm = User.create(email: "matteo.admin@gmail.com",   password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@gua_adm = User.create(email: "gua.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@ted_adm = User.create(email: "ted.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+
 
 
 # Insieme dei dati per creare i dipartimenti
 dep_set = [
 
-    {user_id: @fra_man.id, name: "Dipartimento di Francesco", manager: @fra_man.email,
-     via: "Piazzale Aldo Moro", civico: "5", cap: "00185", citta: "Roma", provincia: "RM", latitude: "41.9012777", longitude: "12.5145879",
-     description: "Per gestire o testare questo dipartimento accedi come 'fra.manager@gmail.com'",
+    {user_id: @fra_man.id, name: "Dipartimento di Ingegneria", manager: @fra_man.email,
+     via: "Piazzale Aldo Moro", civico: "5",  cap: "00185", citta: "Roma", provincia: "RM",
+     latitude: "41.9012777", longitude: "12.5145879",
+     description: "Descrizione standard del Dipartimento di Ingegneria gestito da 'fra.manager@gmail.com'",
      floors: 4, number_of_spaces: 5
     },
 
-    {user_id: @mat_man.id, name: "Dipartimento di Matteo", manager: @mat_man.email,
-     via: "Viale dello Scalo S. Lorenzo", civico: "82", cap: "00159", citta: "Roma", provincia: "RM", latitude: "41.89684", longitude: "12.5213",
-     description: "Per gestire o testare questo dipartimento accedi come 'matteo.manager@gmail.com'",
+    {user_id: @mat_man.id, name: "Dipartimento di Automatica", manager: @mat_man.email,
+     via: "Viale dello Scalo S. Lorenzo", civico: "82", cap: "00159", citta: "Roma", provincia: "RM",
+     latitude: "41.89684",   longitude: "12.5213",
+     description: "Descrizione standard del Dipartimento di Automatica gestito da 'matteo.manager@gmail.com'",
      floors: 4, number_of_spaces: 5
     },
 
-    {user_id: @mic_man.id, name: "Dipartimento di Guarino", manager: @mic_man.email,
-     via: "Borgo Garibaldi", civico: "12", cap: "00041", citta: " Albano Laziale", provincia: "RM", latitude: "41.748959", longitude: "12.648700",
-     description: "Per gestire o testare questo dipartimento accedi come 'guarino.manager@gmail.com'",
+    {user_id: @gua_man.id, name: "Dipartimento di Matematica", manager: @gua_man.email,
+     via: "Borgo Garibaldi", civico: "12", cap: "00041", citta: " Albano Laziale", provincia: "RM",
+     latitude: "41.748959",  longitude: "12.648700",
+     description: "Descrizione standard del Dipartimento di Matematica gestito da 'gua.manager@gmail.com'",
      floors: 4, number_of_spaces: 5
     },
 
-    {user_id: @don_man.id, name: "Dipartimento di Tedesco", manager: @don_man.email,
-     via: "Via mura dei francesi", civico: "10", cap: "00043", citta: "Ciampino", provincia: "RM", latitude: "41.80299", longitude: "12.59893",
-     description: "Per gestire o testare questo dipartimento accedi come 'tedesco.manager@gmail.com'",
+    {user_id: @ted_man.id, name: "Dipartimento di Lingue", manager: @ted_man.email,
+     via: "Via mura dei francesi", civico: "10", cap: "00043", citta: "Ciampino", provincia: "RM",
+     latitude: "41.80299",   longitude: "12.59893",
+     description: "Descrizione standard del Dipartimento di Lingue gestito da 'ted.manager@gmail.com'",
      floors: 4, number_of_spaces: 5
     }
+
 
 ]
 
@@ -114,7 +121,7 @@ dep_set.each do |dep|
                     seat = Seat.create(space_id: sp.id, dep_name: curr_dep.name, typology: sp.typology, space_name: sp.name, position: 1, start_date: @start_date, end_date: @end_date, state: "Active")
 
                     # Aggiunta di alcune prenotazioni
-                    if (curr_dep.name == "Dipartimento di Francesco") and (sp.typology == "Laboratorio") and (wd.day == "Venerdì")
+                    if (curr_dep.name == "Dipartimento di Ingegneria") and (sp.typology == "Laboratorio") and (wd.day == "Venerdì")
                         Reservation.create(user_id: 1, department_id: curr_dep.id, space_id: sp.id, seat_id: seat.id, email: "fra.user@gmail.com",    dep_name: curr_dep.name, typology: sp.typology, space_name: sp.name, floor: sp.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
                         seat.update(position: seat.position+1)
                         Reservation.create(user_id: 5, department_id: curr_dep.id, space_id: sp.id, seat_id: seat.id, email: "fra.manager@gmail.com", dep_name: curr_dep.name, typology: sp.typology, space_name: sp.name, floor: sp.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
@@ -123,7 +130,7 @@ dep_set.each do |dep|
                         seat.update(position: seat.position+1)
                     end
 
-                    if (curr_dep.name == "Dipartimento di Francesco") and (sp.name == "C") and (wd.day == "Martedì")
+                    if (curr_dep.name == "Dipartimento di Ingegneria") and (sp.name == "C") and (wd.day == "Giovedì")
                         Reservation.create(user_id: 1, department_id: curr_dep.id, space_id: sp.id, seat_id: seat.id, email: "fra.user@gmail.com",    dep_name: curr_dep.name, typology: sp.typology, space_name: sp.name, floor: sp.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
                         seat.update(position: seat.position+1)
                         Reservation.create(user_id: 5, department_id: curr_dep.id, space_id: sp.id, seat_id: seat.id, email: "fra.manager@gmail.com", dep_name: curr_dep.name, typology: sp.typology, space_name: sp.name, floor: sp.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")

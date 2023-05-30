@@ -403,16 +403,16 @@
                                     <!-- Bottoni Conferma e Annulla -->
                                     <div class="card mt-4">
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row text-center">
                                                 <div class="col-lg-6">
-                                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
-                                                    <label class="mx-0 my-0 px-0 py-0" style="width:100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-                                                        <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { turbo_confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, class: "btn btn-outline-info", style: "width:100%" %>
-                                                    </label>
+                                                    <!-- Tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                                    <p class="mt-0"> Clicca quì: <br> Se sei sicuro di voler registrare il dipartimento <br> utilizzando i dati riportati in questa schermata </p>
+                                                    <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { turbo_confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, class: "btn btn-outline-info", style: "width:100%" %>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <!-- Tasto per l'annullamento della procedura di registrazione -->
-                                                    <%= link_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, class: "btn btn-outline-info", style: "width:100%" %>
+                                                    <p class="mt-0"> Clicca quì: <br> Se vuoi annullare la procedura di registrazione <br> perdendo i dati inseriti </p>
+                                                    <%= link_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, data: { turbo: true, turbo_method: :delete, turbo_confirm: "ATTENZIONE: Essendo un utente manager dovrai comunque registrare il tuo dipartimento.\nSe non vuoi più il ruolo di manager puoi annullare l'iscrizione dal menù in alto a destra." }, class: "btn btn-outline-info", style: "width:100%" %>
                                                 </div>
                                             </div>
                                         </div>
