@@ -47,6 +47,8 @@ Rails.application.routes.draw do
 
   post "/find_on_map", to:"home#find_on_map"
 
+  get '/user' => "home#index", :as => :user_root
+
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
     member do
       get :confirm_email
