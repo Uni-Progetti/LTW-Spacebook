@@ -129,9 +129,7 @@
 
                                             <!-- Tasto per la creazione -->
                                             <div class="actions">
-                                                <label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-                                                    <%= form.submit class:"btn btn-outline-info bi-caret-right-square", value: 'Continua'%>
-                                                </label>
+                                                <%= form.submit class:"btn btn-outline-info bi-caret-right-square", value: 'Continua'%>
                                             </div>
 
                                         <% end %>
@@ -194,9 +192,7 @@
                                                     <div class="col">
                                                         <%= form.number_field :temp_dep_id, value: mydep.id, readonly: true, style: 'display:none'%>
                                                         <%= form.text_field :dep_name, value: mydep.name, readonly: true, style: 'display:none'%>
-                                                        <label class="mx-0 my-0 px-0 py-0" style="width:100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-                                                            <%= form.submit 'Imposta orari', class:"btn btn-outline-info mt-2", style: "width:100%" %>
-                                                        </label>
+                                                        <%= form.submit 'Imposta orari', class:"btn btn-outline-info mt-2", style: "width:100%" %>
                                                     </div>
                                                 </div>
                                             <% end %>

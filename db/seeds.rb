@@ -19,11 +19,7 @@
 @tst_man = User.create(email: "test.manager@gmail.com",   password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
 
 # Creazione degli utenti admin. Effettuate l'accesso con questi dati per eventuali test.
-@fra_adm = User.create(email: "fra.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-@mat_adm = User.create(email: "matteo.admin@gmail.com",   password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-@gua_adm = User.create(email: "gua.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-@ted_adm = User.create(email: "ted.admin@gmail.com",      password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-
+@fra_adm = User.create(email: "mat.995@hotmail.it",       password: "Password.0", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
 
 
 # Insieme dei dati per creare i dipartimenti
